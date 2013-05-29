@@ -18,14 +18,21 @@ import com.khipu.lib.java.exception.KhipuException;
 import com.khipu.lib.java.exception.XMLException;
 import com.khipu.lib.java.response.KhipuReceiverStatusResponse;
 
+/**
+ * Servicio para verificar el estado de una cuenta de cobro.
+ * 
+ * @author Alejandro Vera (alejandro.vera@khipu.com)
+ * @version 1.1
+ * @since 2013-05-24
+ */
 public class KhipuReceiverStatus extends KhipuService {
 
-	public KhipuReceiverStatus(long receiverId, String secret) {
+	KhipuReceiverStatus(long receiverId, String secret) {
 		super(receiverId, secret);
 	}
 
 	@Override
-	public String getMethodEndpoint() {
+	String getMethodEndpoint() {
 		return "receiverStatus";
 	}
 

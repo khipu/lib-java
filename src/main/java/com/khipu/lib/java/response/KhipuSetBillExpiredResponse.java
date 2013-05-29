@@ -5,9 +5,13 @@
 
 package com.khipu.lib.java.response;
 
+/**
+ * Objeto que representa la respuesta a expirar un cobro.
+ * 
+ * @author Alejandro Vera (alejandro.vera@khipu.com)
+ * @version 1.1
+ * @since 2013-05-24
+ */
 public class KhipuSetBillExpiredResponse implements KhipuResponse {
-	@Override
-	public String toString() {
-		return "true";
-	}
+	// no hay métodos públicos
 }

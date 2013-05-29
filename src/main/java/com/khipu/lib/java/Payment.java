@@ -5,6 +5,13 @@
 
 package com.khipu.lib.java;
 
+/**
+ * Este objeto representa un pago en khipu.
+ * 
+ * @author Alejandro Vera (alejandro.vera@khipu.com)
+ * @version 1.1
+ * @since 2013-05-24
+ */
 public class Payment {
 
 	private String _email;

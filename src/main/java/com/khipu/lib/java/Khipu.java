@@ -19,6 +19,13 @@ import org.xml.sax.SAXException;
 
 import com.khipu.lib.java.exception.KhipuException;
 
+/**
+ * Esta clase sirve para generar instancias de servicios de Khipu
+ * 
+ * @author Alejandro Vera (alejandro.vera@khipu.com)
+ * @version 1.1
+ * @since 2013-05-24
+ */
 public class Khipu {
 	private static final String AMAZON_IMAGES_URL = "https://s3.amazonaws.com/static.khipu.com/buttons/";
 	public static String CREATE_PAYMENT_PAGE_ENDPOINT = "createPaymentPage";
@@ -33,31 +40,98 @@ public class Khipu {
 	public static String BUTTON_200x50 = "200x50.png";
 	public static String BUTTON_200x75 = "200x75.png";
 
+	/**
+	 * Entrega un servicio para injectar pagos por email en Khipu.
+	 * 
+	 * @param receiverId
+	 *            id de cobrador
+	 * @param secret
+	 *            llave de cobrador
+	 * @return el servicio para inyectar pagos
+	 * @see KhipuCreateEmail
+	 * @since 2013-05-24
+	 */
 	public static KhipuCreateEmail getCreateEmail(long receiverId, String secret) {
 		return new KhipuCreateEmail(receiverId, secret);
 	}
 
+	/**
+	 * Entrega un servicio para verificar el estado de un pago.
+	 * 
+	 * @param receiverId
+	 *            id de cobrador
+	 * @param secret
+	 *            llave de cobrador
+	 * @return el servicio para verificar estados
+	 * @see KhipuPaymentStatus
+	 * @since 2013-05-24
+	 */
 	public static KhipuPaymentStatus getPaymentStatus(int receiverId, String secret) {
 		return new KhipuPaymentStatus(receiverId, secret);
 	}
 
+	/**
+	 * Entrega un servicio para verificar el estado de un cobrador.
+	 * 
+	 * @param receiverId
+	 *            id de cobrador
+	 * @param secret
+	 *            llave de cobrador
+	 * @return el servicio para verificar el estado
+	 * @see KhipuReceiverStatus
+	 * @since 2013-05-24
+	 */
 	public static KhipuReceiverStatus getReceiverStatus(int receiverId, String secret) {
 		return new KhipuReceiverStatus(receiverId, secret);
 	}
 
+	/**
+	 * Entrega un servicio para expirar cobros.
+	 * 
+	 * @param receiverId
+	 *            id de cobrador
+	 * @param secret
+	 *            llave de cobrador
+	 * @return el servicio para expirar cobros
+	 * @see KhipuSetBillExpired
+	 * @since 2013-05-24
+	 */
 	public static KhipuSetBillExpired getSetBillExpired(int receiverId, String secret) {
 		return new KhipuSetBillExpired(receiverId, secret);
 	}
 
+	/**
+	 * Entrega un servicio para indicar que el pago fue hecho al cobrador por un
+	 * medio distinto a khipu.
+	 * 
+	 * @param receiverId
+	 *            id de cobrador
+	 * @param secret
+	 *            llave de cobrador
+	 * @return el servicio para modificar el estado de un pago
+	 * @see KhipuSetPayedByReceiver
+	 * @since 2013-05-24
+	 */
 	public static KhipuSetPayedByReceiver getSetPayedByReceiver(int receiverId, String secret) {
 		return new KhipuSetPayedByReceiver(receiverId, secret);
 	}
 
+	/**
+	 * Entrega un servicio para indicar que el pago rechazado por el pagador.
+	 * 
+	 * @param receiverId
+	 *            id de cobrador
+	 * @param secret
+	 *            llave de cobrador
+	 * @return el servicio para modificar el estado de un pago
+	 * @see KhipuSetRejectedByPayer
+	 * @since 2013-05-24
+	 */
 	public static KhipuSetRejectedByPayer getSetRejectedByPayer(int receiverId, String secret) {
 		return new KhipuSetRejectedByPayer(receiverId, secret);
 	}
 
-	public static KhipuException getErrorsException(String xml) {
+	static KhipuException getErrorsException(String xml) {
 		KhipuException exception = new KhipuException();
 		try {
 			DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -79,6 +153,45 @@ public class Khipu {
 		return exception;
 	}
 
+	/**
+	 * Entrega un String que contiene un botón de pago que dirije a khipu.
+	 * 
+	 * @param receiverId
+	 *            id de cobrador
+	 * @param secret
+	 *            llave de cobrador
+	 * @param email
+	 *            correo del pagador. Este correo aparecerá pre-configurado en
+	 *            la página de pago (opcional).
+	 * @param subject
+	 *            asunto del cobro. Con un máximo de 255 caracteres.
+	 * @param body
+	 *            la descripción del cobro (opcional).
+	 * @param amount
+	 *            el monto del cobro.
+	 * @param notifyUrl
+	 *            la dirección de tu web service que utilizará khipu para
+	 *            notificarte de un pago realizado (opcional).
+	 * @param returnUrl
+	 *            la dirección URL a donde enviar al cliente una vez que el pago
+	 *            sea realizado (opcional).
+	 * @param cancelUrl
+	 *            la dirección URL a donde enviar al cliente si se arrepiente de
+	 *            hacer la transacción (opcional)
+	 * @param pictureUrl
+	 *            una dirección URL de una foto de tu producto o servicio para
+	 *            mostrar en la página del cobro (opcional).
+	 * @param custom
+	 *            variable para enviar información personalizada de la
+	 *            transacción (opcional).
+	 * @param transactionId
+	 *            variable disponible para enviar un identificador propio de la
+	 *            transacción (opcional).
+	 * @param button
+	 *            imagen del botón de pago.
+	 * @return el servicio para crear botones de pago
+	 * @since 2013-05-24
+	 */
 	public static String getPaymentButton(int receiverId, String secret, String email, String subject, String body, double amount, String notifyUrl, String returnUrl, String cancelUrl, String pictureUrl, String custom, String transactionId, String button) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("<form action=\"" + API_URL + CREATE_PAYMENT_PAGE_ENDPOINT + "\" method=\"post\">\n");
@@ -116,6 +229,16 @@ public class Khipu {
 		return builder.toString();
 	}
 
+	/**
+	 * Entrega un servicio para verificar la autenticidad de una notificación
+	 * instantanea de khipu.
+	 * 
+	 * @param receiverId
+	 *            id de cobrador
+	 * @return el servicio verificar la autenticidad de un pago.
+	 * @see KhipuVerifyPaymentNotification
+	 * @since 2013-05-24
+	 */
 	public static KhipuVerifyPaymentNotification getVerifyPaymentNotification(int receiverId) {
 		return new KhipuVerifyPaymentNotification(receiverId);
 	}

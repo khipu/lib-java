@@ -5,6 +5,13 @@
 
 package com.khipu.lib.java.exception;
 
+/**
+ * Excepcion que contiene un XML de error proveniente de khipu
+ * 
+ * @author Alejandro Vera (alejandro.vera@khipu.com)
+ * @version 1.1
+ * @since 2013-05-24
+ */
 public class XMLException extends Exception {
 	private static final long serialVersionUID = 1L;
 	private String _xml;

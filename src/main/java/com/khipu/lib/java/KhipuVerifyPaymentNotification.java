@@ -15,6 +15,14 @@ import com.khipu.lib.java.exception.KhipuException;
 import com.khipu.lib.java.exception.XMLException;
 import com.khipu.lib.java.response.KhipuVerifyPaymentNotificationResponse;
 
+/**
+ * Servicio verificar la autenticidad de una notificación instantanea hecha por
+ * khipu.
+ * 
+ * @author Alejandro Vera (alejandro.vera@khipu.com)
+ * @version 1.1
+ * @since 2013-05-24
+ */
 public class KhipuVerifyPaymentNotification extends KhipuService {
 
 	private String _postReceiverId;
@@ -28,26 +36,26 @@ public class KhipuVerifyPaymentNotification extends KhipuService {
 	private String _payerEmail;
 	private String _notificationSignature;
 
-	public KhipuVerifyPaymentNotification(long receiverId, String secret) {
+	KhipuVerifyPaymentNotification(long receiverId, String secret) {
 		super(receiverId, secret);
 	}
 
-	public KhipuVerifyPaymentNotification(int receiverId) {
+	KhipuVerifyPaymentNotification(int receiverId) {
 		super(receiverId, null);
 	}
 
 	@Override
-	public String getMethodEndpoint() {
+	String getMethodEndpoint() {
 		return "verifyPaymentNotification";
 	}
 
 	@Override
 	public KhipuVerifyPaymentNotificationResponse execute() throws KhipuException, IOException {
-		
+
 		if (("" + getReceiverId()).equals(getPostReceiverId())) {
 			return new KhipuVerifyPaymentNotificationResponse(false);
 		}
-		
+
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("receiver_id", "" + getReceiverId());
 		map.put("api_version", _apiVersion);

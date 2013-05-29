@@ -15,6 +15,13 @@ import com.khipu.lib.java.exception.KhipuException;
 import com.khipu.lib.java.exception.XMLException;
 import com.khipu.lib.java.response.KhipuSetRejectedByPayerResponse;
 
+/**
+ * Servicio para que el cobrador indique que el pagador a rechazado el pago.
+ * 
+ * @author Alejandro Vera (alejandro.vera@khipu.com)
+ * @version 1.1
+ * @since 2013-05-24
+ */
 public class KhipuSetRejectedByPayer extends KhipuService {
 
 	private String _paymentId;
@@ -32,12 +39,12 @@ public class KhipuSetRejectedByPayer extends KhipuService {
 		return _paymentId;
 	}
 
-	public KhipuSetRejectedByPayer(long receiverId, String secret) {
+	KhipuSetRejectedByPayer(long receiverId, String secret) {
 		super(receiverId, secret);
 	}
 
 	@Override
-	public String getMethodEndpoint() {
+	String getMethodEndpoint() {
 		return "setRejectedByPayer";
 	}
 
