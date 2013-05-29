@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
 import com.khipu.lib.java.exception.KhipuException;
 
 /**
- * Esta clase sirve para genrar instancias de servicios de Khipu
+ * Esta clase sirve para generar instancias de servicios de Khipu
  * 
  * @author Alejandro Vera (alejandro.vera@khipu.com)
  * @version 1.1
