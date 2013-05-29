@@ -15,17 +15,24 @@ import com.khipu.lib.java.exception.KhipuException;
 import com.khipu.lib.java.exception.XMLException;
 import com.khipu.lib.java.response.KhipuSetBillExpiredResponse;
 
+/**
+ * Servicio para expirar un cobro.
+ * 
+ * @author Alejandro Vera (alejandro.vera@khipu.com)
+ * @version 1.1
+ * @since 2013-05-24
+ */
 public class KhipuSetBillExpired extends KhipuService {
 
 	private String _text;
 	private String _billId;
 
-	public KhipuSetBillExpired(long receiverId, String secret) {
+	KhipuSetBillExpired(long receiverId, String secret) {
 		super(receiverId, secret);
 	}
 
 	@Override
-	public String getMethodEndpoint() {
+	String getMethodEndpoint() {
 		return "setBillExpired";
 	}
 
