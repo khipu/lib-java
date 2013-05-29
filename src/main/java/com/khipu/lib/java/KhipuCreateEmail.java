@@ -23,6 +23,14 @@ import com.khipu.lib.java.exception.KhipuException;
 import com.khipu.lib.java.exception.XMLException;
 import com.khipu.lib.java.response.KhipuEmailResponse;
 
+/**
+ * Servicio para injectar pagos en khipu. Estos pagos pueden ser opcionalmente
+ * enviados por correo electrónico
+ * 
+ * @author Alejandro Vera (alejandro.vera@khipu.com)
+ * @version 1.1
+ * @since 2013-05-24
+ */
 public class KhipuCreateEmail extends KhipuService {
 
 	String _subject;
@@ -39,12 +47,12 @@ public class KhipuCreateEmail extends KhipuService {
 
 	List<Map<String, String>> _destinataries = new LinkedList<Map<String, String>>();
 
-	public KhipuCreateEmail(long receiverId, String secret) {
+	KhipuCreateEmail(long receiverId, String secret) {
 		super(receiverId, secret);
 	}
 
 	@Override
-	public String getMethodEndpoint() {
+	String getMethodEndpoint() {
 		return "createEmail";
 	}
 
@@ -94,20 +102,20 @@ public class KhipuCreateEmail extends KhipuService {
 
 	private String getConcatenated() {
 		StringBuilder concatenated = new StringBuilder();
-		concatenated .append("receiver_id=" + getReceiverId());
-		concatenated .append("&subject=" + _subject);
-		concatenated .append("&body=" + (_body != null ? _body : ""));
-		concatenated .append("&destinataries=" + getDestinatariesJSON());
-		concatenated .append("&pay_directly=" + _payDirectly);
-		concatenated .append("&send_emails=" + _sendEmails);
-		concatenated .append("&expires_date=" + (_expiresDate != null ? _expiresDate.getTime() : ""));
-		concatenated .append("&transaction_id=" + (_transactionId != null ? _transactionId : ""));
-		concatenated .append("&custom=" + (_custom != null ? _custom : ""));
-		concatenated .append("&notify_url=" + (_notifyUrl != null ? _notifyUrl : ""));
-		concatenated .append("&return_url=" + (_returnUrl != null ? _returnUrl : ""));
-		concatenated .append("&cancel_url=" + (_cancelUrl != null ? _cancelUrl : ""));
-		concatenated .append("&picture_url=" + (_pictureUrl != null ? _pictureUrl : ""));
-		concatenated .append("&secret=" + getSecret());
+		concatenated.append("receiver_id=" + getReceiverId());
+		concatenated.append("&subject=" + _subject);
+		concatenated.append("&body=" + (_body != null ? _body : ""));
+		concatenated.append("&destinataries=" + getDestinatariesJSON());
+		concatenated.append("&pay_directly=" + _payDirectly);
+		concatenated.append("&send_emails=" + _sendEmails);
+		concatenated.append("&expires_date=" + (_expiresDate != null ? _expiresDate.getTime() : ""));
+		concatenated.append("&transaction_id=" + (_transactionId != null ? _transactionId : ""));
+		concatenated.append("&custom=" + (_custom != null ? _custom : ""));
+		concatenated.append("&notify_url=" + (_notifyUrl != null ? _notifyUrl : ""));
+		concatenated.append("&return_url=" + (_returnUrl != null ? _returnUrl : ""));
+		concatenated.append("&cancel_url=" + (_cancelUrl != null ? _cancelUrl : ""));
+		concatenated.append("&picture_url=" + (_pictureUrl != null ? _pictureUrl : ""));
+		concatenated.append("&secret=" + getSecret());
 		return concatenated.toString();
 	}
 

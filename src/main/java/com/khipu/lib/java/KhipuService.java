@@ -40,7 +40,7 @@ public abstract class KhipuService {
 		_secret = secret;
 	}
 
-	public abstract String getMethodEndpoint();
+	abstract String getMethodEndpoint();
 
 	public abstract KhipuResponse execute() throws KhipuException, IOException;
 

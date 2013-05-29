@@ -9,7 +9,16 @@ import java.util.List;
 
 import com.khipu.lib.java.Payment;
 
+/**
+ * Objeto con la respuesta a inyectar pagos en khipu. Contiene la información
+ * del cobro y los pagos asociados a él.
+ * 
+ * @author Alejandro Vera (alejandro.vera@khipu.com)
+ * @version 1.1
+ * @since 2013-05-24
+ */
 public class KhipuEmailResponse implements KhipuResponse {
+
 	private String _billId;
 	private List<Payment> _payments;
 
@@ -18,20 +27,49 @@ public class KhipuEmailResponse implements KhipuResponse {
 		_payments = payments;
 	}
 
+	/**
+	 * Entrega el identificador del cobro. Este identificador se utiliza en
+	 * otros servicios de la API para ejecutar acciones sobre el cobro.
+	 * 
+	 * @return el identificador del cobro
+	 * @since 2013-05-24
+	 */
 	public String getBillId() {
 		return _billId;
 	}
 
+	/**
+	 * Este método establece el valor del identificador del cobro.
+	 * 
+	 * @param billId
+	 *            el identificador del cobro.
+	 * 
+	 * @return el identificador
+	 * @since 2013-05-24
+	 */
 	public void setBillId(String billId) {
 		_billId = billId;
 	}
 
+	/**
+	 * Entrega la lista de pagos asociados a este cobro.
+	 * 
+	 * @return los pagos de este cobro
+	 * @since 2013-05-24
+	 */
 	public List<Payment> getPayments() {
 		return _payments;
 	}
 
+	/**
+	 * Establece la lista de pagos asociados a un cobro.
+	 * 
+	 * @param payments
+	 *            los pagos de este cobro
+	 * @since 2013-05-24
+	 */
 	public void setPayments(List<Payment> payments) {
 		_payments = payments;
 	}
-	
+
 }
