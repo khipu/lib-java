@@ -12,6 +12,21 @@ Versión API de notificación: 1.2
 La documentación de Khipu.com se puede ver desde aquí:
 https://khipu.com/page/api
 
+Uso
+---
+
+Si usas Maven en tu proyecto puedes agregar la siguiente dependencia en tu archivo pom.xml
+
+```XML
+<dependency>
+    <groupId>com.khipu</groupId>
+    <artifactId>lib-khipu</artifactId>
+    <version>1.1.1</version>
+</dependency>
+```
+
+Si usas Ivy, Grape, Grails, Buildr, Scala SBT o quieres directamente bajar los .jar puedes buscar khipu en <a href="http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22lib-khipu%22">Maven Central</a>.
+
 
 Introducción
 ------------
