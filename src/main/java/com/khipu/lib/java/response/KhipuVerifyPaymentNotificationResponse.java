@@ -10,7 +10,7 @@ package com.khipu.lib.java.response;
  * instantanea de khipu es válida
  * 
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.1
+ * @version 1.2
  * @since 2013-05-24
  */
 public class KhipuVerifyPaymentNotificationResponse implements KhipuResponse {

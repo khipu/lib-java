@@ -5,22 +5,21 @@
 
 package com.khipu.lib.java;
 
+import com.khipu.lib.java.exception.JSONException;
+import com.khipu.lib.java.exception.KhipuException;
+import com.khipu.lib.java.response.KhipuVerifyPaymentNotificationResponse;
+import org.apache.http.ParseException;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.http.ParseException;
-
-import com.khipu.lib.java.exception.KhipuException;
-import com.khipu.lib.java.exception.XMLException;
-import com.khipu.lib.java.response.KhipuVerifyPaymentNotificationResponse;
 
 /**
  * Servicio verificar la autenticidad de una notificación instantanea hecha por
  * khipu.
  * 
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.1
+ * @version 1.2
  * @since 2013-05-24
  */
 public class KhipuVerifyPaymentNotification extends KhipuService {
@@ -51,11 +50,11 @@ public class KhipuVerifyPaymentNotification extends KhipuService {
 
 	@Override
 	public KhipuVerifyPaymentNotificationResponse execute() throws KhipuException, IOException {
-
+		
 		if (("" + getReceiverId()).equals(getPostReceiverId())) {
 			return new KhipuVerifyPaymentNotificationResponse(false);
 		}
-
+		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("receiver_id", "" + getReceiverId());
 		map.put("api_version", _apiVersion);
@@ -71,8 +70,8 @@ public class KhipuVerifyPaymentNotification extends KhipuService {
 			return new KhipuVerifyPaymentNotificationResponse(post(map).equals("VERIFIED"));
 		} catch (ParseException e) {
 			e.printStackTrace();
-		} catch (XMLException xmlException) {
-			throw Khipu.getErrorsException(xmlException.getXml());
+		} catch (JSONException xmlException) {
+			throw Khipu.getErrorsException(xmlException.getJSON());
 		}
 		return null;
 	}

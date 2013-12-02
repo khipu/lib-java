@@ -5,42 +5,40 @@
 
 package com.khipu.lib.java;
 
-import java.io.IOException;
-import java.io.StringReader;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
 import com.khipu.lib.java.exception.KhipuException;
+import org.codehaus.jackson.map.ObjectMapper;
+
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * Esta clase sirve para generar instancias de servicios de Khipu
  * 
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.1
+ * @version 1.2
  * @since 2013-05-24
  */
 public class Khipu {
 	private static final String AMAZON_IMAGES_URL = "https://s3.amazonaws.com/static.khipu.com/buttons/";
 	public static String CREATE_PAYMENT_PAGE_ENDPOINT = "createPaymentPage";
-	public static final String API_URL = "https://khipu.com/api/1.1/";
+	public static final String API_URL = "https://khipu.com/api/1.2/";
 	public static String BUTTON_50x25 = "50x25.png";
 	public static String BUTTON_100x25 = "100x25.png";
-	public static String BUTTON_100x50 = "100x50.png";
-	public static String BUTTON_150x25 = "150x25.png";
-	public static String BUTTON_150x50 = "150x50.png";
-	public static String BUTTON_150x75 = "150x75.png";
-	public static String BUTTON_150x75_B = "150x75-B.png";
-	public static String BUTTON_200x50 = "200x50.png";
-	public static String BUTTON_200x75 = "200x75.png";
+    public static String BUTTON_100x25_WHITE = "100x25-w.png";
+    public static String BUTTON_100x50 = "100x50.png";
+    public static String BUTTON_100x50_WHITE = "100x50-w.png";
+    public static String BUTTON_150x25 = "150x25.png";
+    public static String BUTTON_150x25_WHITE = "150x25-w.png";
+    public static String BUTTON_150x50 = "150x50.png";
+    public static String BUTTON_150x50_WHITE = "150x50-w.png";
+    public static String BUTTON_150x75 = "150x75.png";
+    public static String BUTTON_150x75_WHITE = "150x75-w.png";
+    public static String BUTTON_200x50 = "200x50.png";
+    public static String BUTTON_200x50_WHITE = "200x50-w.png";
+    public static String BUTTON_200x75 = "200x75.png";
+    public static String BUTTON_200x75_WHITE = "200x75-w.png";
 
-	/**
+    /**
 	 * Entrega un servicio para injectar pagos por email en Khipu.
 	 * 
 	 * @param receiverId
@@ -54,6 +52,10 @@ public class Khipu {
 	public static KhipuCreateEmail getCreateEmail(long receiverId, String secret) {
 		return new KhipuCreateEmail(receiverId, secret);
 	}
+
+    public static KhipuCreatePaymentURL getCreatePaymentURL(long receiverId, String secret) {
+        return new KhipuCreatePaymentURL(receiverId, secret);
+    }
 
 	/**
 	 * Entrega un servicio para verificar el estado de un pago.
@@ -117,41 +119,47 @@ public class Khipu {
 	}
 
 	/**
-	 * Entrega un servicio para indicar que el pago rechazado por el pagador.
+	 * Entrega un servicio para obtener el listado de bancos para pagar a un cobrador.
 	 * 
 	 * @param receiverId
 	 *            id de cobrador
 	 * @param secret
 	 *            llave de cobrador
-	 * @return el servicio para modificar el estado de un pago
+	 * @return el servicio para obtener el listado de bancos
 	 * @see KhipuSetRejectedByPayer
-	 * @since 2013-05-24
+	 * @since 2013-12-02
 	 */
-	public static KhipuSetRejectedByPayer getSetRejectedByPayer(int receiverId, String secret) {
-		return new KhipuSetRejectedByPayer(receiverId, secret);
+	public static KhipuReceiverBanks getReceiverBanks(int receiverId, String secret) {
+		return new KhipuReceiverBanks(receiverId, secret);
 	}
 
-	static KhipuException getErrorsException(String xml) {
-		KhipuException exception = new KhipuException();
-		try {
-			DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			InputSource inputSource = new InputSource();
-			inputSource.setCharacterStream(new StringReader(xml));
-			Document document = documentBuilder.parse(inputSource);
-			document.getDocumentElement().normalize();
-			NodeList errors = document.getElementsByTagName("Error");
-			for (int temp = 0; temp < errors.getLength(); temp++) {
-				exception.addError(errors.item(temp).getTextContent());
-			}
-		} catch (ParserConfigurationException parserConfigurationException) {
-			parserConfigurationException.printStackTrace();
-		} catch (SAXException saxException) {
-			saxException.printStackTrace();
-		} catch (IOException ioException) {
-			ioException.printStackTrace();
-		}
-		return exception;
-	}
+    /**
+     * Entrega un servicio para indicar que el pago rechazado por el pagador.
+     *
+     * @param receiverId
+     *            id de cobrador
+     * @param secret
+     *            llave de cobrador
+     * @return el servicio para modificar el estado de un pago
+     * @see KhipuSetRejectedByPayer
+     * @since 2013-05-24
+     */
+    public static KhipuSetRejectedByPayer getSetRejectedByPayer(int receiverId, String secret) {
+        return new KhipuSetRejectedByPayer(receiverId, secret);
+    }
+
+    public static KhipuException getErrorsException(String json) {
+        KhipuException exception = new KhipuException();
+        try {
+            Map<String, Map<String, String>> info = (Map<String, Map<String, String>>) new ObjectMapper().readValue(json, Map.class);
+            exception.setMessage(info.get("error").get("message"));
+            exception.setType(info.get("error").get("type"));
+            return exception;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return exception;
+    }
 
 	/**
 	 * Entrega un String que contiene un botón de pago que dirije a khipu.
@@ -192,42 +200,43 @@ public class Khipu {
 	 * @return el servicio para crear botones de pago
 	 * @since 2013-05-24
 	 */
-	public static String getPaymentButton(int receiverId, String secret, String email, String subject, String body, double amount, String notifyUrl, String returnUrl, String cancelUrl, String pictureUrl, String custom, String transactionId, String button) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("<form action=\"" + API_URL + CREATE_PAYMENT_PAGE_ENDPOINT + "\" method=\"post\">\n");
-		builder.append("<input type=\"hidden\" name=\"receiver_id\" value=\"" + receiverId + "\">\n");
-		builder.append("<input type=\"hidden\" name=\"subject\" value=\"" + (subject != null ? subject : "") + "\"/>\n");
-		builder.append("<input type=\"hidden\" name=\"body\" value=\"" + (body != null ? body : "") + "\">\n");
-		builder.append("<input type=\"hidden\" name=\"amount\" value=\"" + amount + "\">\n");
-		builder.append("<input type=\"hidden\" name=\"notify_url\" value=\"" + (notifyUrl != null ? notifyUrl : "") + "\"/>\n");
-		builder.append("<input type=\"hidden\" name=\"return_url\" value=\"" + (returnUrl != null ? returnUrl : "") + "\"/>\n");
-		builder.append("<input type=\"hidden\" name=\"cancel_url\" value=\"" + (cancelUrl != null ? cancelUrl : "") + "\"/>\n");
-		builder.append("<input type=\"hidden\" name=\"custom\" value=\"" + (custom != null ? custom : "") + "\">\n");
-		builder.append("<input type=\"hidden\" name=\"transaction_id\" value=\"" + (transactionId != null ? transactionId : "") + "\">\n");
-		builder.append("<input type=\"hidden\" name=\"payer_email\" value=\"" + (email != null ? email : "") + "\">\n");
-		builder.append("<input type=\"hidden\" name=\"picture_url\" value=\"" + (pictureUrl != null ? pictureUrl : "") + "\">\n");
-		builder.append("<input type=\"hidden\" name=\"hash\" value=\"" + KhipuService.sha1(getConcatenated(receiverId, secret, email, subject, body, amount, notifyUrl, returnUrl, cancelUrl, pictureUrl, custom, transactionId)) + "\">\n");
-		builder.append("<input type=\"image\" name=\"submit\" src=\"" + AMAZON_IMAGES_URL + button + "\"/>");
-		builder.append("</form>");
-		return builder.toString();
-	}
+    public static String getPaymentButton(int receiverId, String secret, String email, String bankId, String subject, String body, double amount, String notifyUrl, String returnUrl, String cancelUrl, String pictureUrl, String custom, String transactionId, String button) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("<form action=\"" + API_URL + CREATE_PAYMENT_PAGE_ENDPOINT + "\" method=\"post\">\n");
+        builder.append("<input type=\"hidden\" name=\"receiver_id\" value=\"").append(receiverId).append("\">\n");
+        builder.append("<input type=\"hidden\" name=\"subject\" value=\"").append(subject != null ? subject : "").append("\"/>\n");
+        builder.append("<input type=\"hidden\" name=\"body\" value=\"").append(body != null ? body : "").append("\">\n");
+        builder.append("<input type=\"hidden\" name=\"amount\" value=\"").append(amount).append("\">\n");
+        builder.append("<input type=\"hidden\" name=\"notify_url\" value=\"").append(notifyUrl != null ? notifyUrl : "").append("\"/>\n");
+        builder.append("<input type=\"hidden\" name=\"return_url\" value=\"").append(returnUrl != null ? returnUrl : "").append("\"/>\n");
+        builder.append("<input type=\"hidden\" name=\"cancel_url\" value=\"").append(cancelUrl != null ? cancelUrl : "").append("\"/>\n");
+        builder.append("<input type=\"hidden\" name=\"custom\" value=\"").append(custom != null ? custom : "").append("\">\n");
+        builder.append("<input type=\"hidden\" name=\"transaction_id\" value=\"").append(transactionId != null ? transactionId : "").append("\">\n");
+        builder.append("<input type=\"hidden\" name=\"payer_email\" value=\"").append(email != null ? email : "").append("\">\n");
+        builder.append("<input type=\"hidden\" name=\"bank_id\" value=\"").append(bankId != null ? bankId : "").append("\">\n");
+        builder.append("<input type=\"hidden\" name=\"picture_url\" value=\"").append(pictureUrl != null ? pictureUrl : "").append("\">\n");
+        builder.append("<input type=\"hidden\" name=\"hash\" value=\"").append(KhipuService.HmacSHA256(secret, getConcatenated(receiverId, email, bankId, subject, body, amount, notifyUrl, returnUrl, cancelUrl, pictureUrl, custom, transactionId))).append("\">\n");
+        builder.append("<input type=\"image\" name=\"submit\" src=\"" + AMAZON_IMAGES_URL).append(button).append("\"/>");
+        builder.append("</form>");
+        return builder.toString();
+    }
 
-	private static String getConcatenated(int receiverId, String secret, String email, String subject, String body, double amount, String notifyUrl, String returnUrl, String cancelUrl, String pictureUrl, String custom, String transactionId) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("receiver_id=" + receiverId);
-		builder.append("&subject=" + (subject != null ? subject : ""));
-		builder.append("&body=" + (body != null ? body : ""));
-		builder.append("&amount=" + amount);
-		builder.append("&payer_email=" + (email != null ? email : ""));
-		builder.append("&transaction_id=" + (transactionId != null ? transactionId : ""));
-		builder.append("&custom=" + (custom != null ? custom : ""));
-		builder.append("&notify_url=" + (notifyUrl != null ? notifyUrl : ""));
-		builder.append("&return_url=" + (returnUrl != null ? returnUrl : ""));
-		builder.append("&cancel_url=" + (cancelUrl != null ? cancelUrl : ""));
-		builder.append("&picture_url=" + (pictureUrl != null ? pictureUrl : ""));
-		builder.append("&secret=" + secret);
-		return builder.toString();
-	}
+    private static String getConcatenated(int receiverId, String email, String bankId, String subject, String body, double amount, String notifyUrl, String returnUrl, String cancelUrl, String pictureUrl, String custom, String transactionId) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("receiver_id=").append(receiverId);
+        builder.append("&subject=").append(subject != null ? subject : "");
+        builder.append("&body=").append(body != null ? body : "");
+        builder.append("&amount=").append(amount);
+        builder.append("&payer_email=").append(email != null ? email : "");
+        builder.append("&bank_id=").append(bankId != null ? bankId : "");
+        builder.append("&transaction_id=").append(transactionId != null ? transactionId : "");
+        builder.append("&custom=").append(custom != null ? custom : "");
+        builder.append("&notify_url=").append(notifyUrl != null ? notifyUrl : "");
+        builder.append("&return_url=").append(returnUrl != null ? returnUrl : "");
+        builder.append("&cancel_url=").append(cancelUrl != null ? cancelUrl : "");
+        builder.append("&picture_url=").append(pictureUrl != null ? pictureUrl : "");
+        return builder.toString();
+    }
 
 	/**
 	 * Entrega un servicio para verificar la autenticidad de una notificación

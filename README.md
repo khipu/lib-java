@@ -5,9 +5,9 @@ khipu
 
 Biblioteca JAVA para utilizar los servicios de Khipu.com
 
-Versión Biblioteca: 1.0
+Versión Biblioteca: 1.2
 
-Versión API Khipu: 1.1 
+Versión API Khipu: 1.2 
 Versión API de notificación: 1.2
 
 La documentación de Khipu.com se puede ver desde aquí:
@@ -22,7 +22,7 @@ Si usas Maven en tu proyecto puedes agregar la siguiente dependencia en tu archi
 <dependency>
     <groupId>com.khipu</groupId>
     <artifactId>lib-khipu</artifactId>
-    <version>1.1.1</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
@@ -34,21 +34,40 @@ Introducción
 
 Esta biblioteca implementa los siguientes servicios de khipu:
 
+1. Obtener listado de bancos
+2. Crear cobros y enviarlos por mail. 
+3. Crear una página de Pago.
+4. Crear un pago y obtener us URL.
+5. Recibir y validar la notificación de un pago.
+6. Verificar el estado de una cuenta de cobro.
+7. Verificar el estado de un pago.
+8. Marcar un pago como pagado.
+9. Marcar un cobro como expirado.
+10. Marcar un pago como rechazado.
 
-1) Crear cobros y enviarlos por mail.
-2) Crear una página de Pago.
-3) Recibir y validar la notificación de un pago.
-4) Verificar el estado de una cuenta de cobro.
-5) Verificar el estado de un pago.
-6) Marcar un pago como pagado.
-7) Marcar un cobro como expirado.
-8) Marcar un pago como rechazado.
 
+1) Obtener listado de bancos.
+-----------------------------
 
-1) Crear cobros y enviarlos por mail.
-------------------------------------
+Este servicio entrega un objteo _KhipuReceiverBanksResponse_ que contiene un listado de los bancos disponibles para efectuar un pago a un cobrador determinado. Cada banco tiene su identificador, un nombre, el monto mínimo que se puede transferir desde él y un mensaje con información importante.
 
-Este servicio entrega un objeto KhipuEmailResponse que contiene el identificador
+```Java
+ KhipuReceiverBanks receiverBanks = Khipu.getReceiverBanks(ID_DEL_COBRADOR, SECRET_DEL_COBRADOR);
+    try {
+        KhipuReceiverBanksResponse response = receiverBanks.execute();
+        System.out.println(response);
+    } catch (KhipuException e) {
+        System.out.println(e.getType());
+        System.out.println(e.getMessage());
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
+2) Crear cobros y enviarlos por mail.
+-------------------------------------
+
+Este servicio entrega un objeto _KhipuEmailResponse_ que contiene el identificador
 del cobro generado así como una lista de los pagos asociados a este cobro. Por cada 
 pago se tiene el ID, el correo asociado y la URL en khipu para pagar.
 
@@ -61,7 +80,7 @@ createEmail.addDestinatary("Jane Dow", "jane.doe@gmail.com", 100);
 createEmail.setSendEmails(true);
 createEmail.setBody("Un cuerpo para este cobro");
 try {
-	KhipuEmailResponse response = createEmail.execute();
+    KhipuEmailResponse response = createEmail.execute();
 	System.out.println(response);
 } catch (KhipuException e) {
 	for (String error : e.getErrors()) {
@@ -72,9 +91,7 @@ try {
 }
 ```
 
-
-
-2) Crear una página de Pago.
+3) Crear una página de Pago.
 -----------------------
 
 Este ejemplo genera un archivo .html con un formulario de pago en khipu.
@@ -102,7 +119,32 @@ try {
 }
 ```
 
-3) Validar la notificación de un pago.
+
+4) Crear un pago y obtener su URL.
+-----------------------
+
+Este servicio entrega un objeto _KhipuUrlResponse_ para obtener que contiene el identificador de un pago generado, su URL en khipu y la URL para iniciar el pago desde un dispositivo móvil.
+
+```Java
+PrintWriter out;
+    KhipuCreatePaymentURL createPaymentUrl = Khipu.getCreatePaymentURL(ID_DEL_COBRADOR, SECRET_DEL_COBRADOR);
+    createPaymentUrl.setSubject("Un cobro desde java");
+    createPaymentUrl.setBody("Un cuerpo para este cobro");
+    createPaymentUrl.setEmail("john.doe@gmail.com");
+    createPaymentUrl.setAmount(1000);
+
+    try {
+        KhipuUrlResponse response = createPaymentUrl.execute();
+        System.out.println(response);
+    } catch (KhipuException e) {
+        System.out.println(e.getType());
+        System.out.println(e.getMessage());
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
+5) Validar la notificación de un pago.
 ----------------------------------------------------
 
 Este ejemplo contacta a khipu para validar los datos de una transacción. Para usar
@@ -138,7 +180,7 @@ try {
 ```
 
 
-4) Verificar el estado de una cuenta de cobro.
+6) Verificar el estado de una cuenta de cobro.
 ---------------------------------------
 
 Este servicio permite consultar el estado de una cuenta khipu. Se devuelve un 
@@ -159,7 +201,7 @@ try {
 }
 ```
 
-5) Verificar el estado de un pago.
+7) Verificar el estado de un pago.
 -------------------------------
 
 Este servició sirve para verificar el estado de un pago.
@@ -179,7 +221,7 @@ try {
 } 
 ```
 
-6) Marcar un cobro como pagado.
+8) Marcar un cobro como pagado.
 -------------------------------
 
 Este servicio permite marcar un cobro como pagado. Si el pagador
@@ -201,7 +243,7 @@ try {
 }
 ```
 
-7) Marcar un cobro como expirado.
+9) Marcar un cobro como expirado.
 -------------------------------
 
 Este servicio permite adelantar la expiración del cobro. Se puede adjuntar un texto
@@ -224,7 +266,7 @@ try {
 ```
 
 
-8) Marcar un cobro como rechazado.
+10) Marcar un cobro como rechazado.
 ----------------------------------
 
 Este servicio permite rechazar pago con el fin de inhabilitarlo. Permite indicar que el 
@@ -245,4 +287,3 @@ try {
 	e.printStackTrace();
 }
 ```
-

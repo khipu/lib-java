@@ -5,27 +5,34 @@
 
 package com.khipu.lib.java.exception;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * Excepción que se arroja en caso error en alguna petición a khipu
  * 
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.1
+ * @version 1.2
  * @since 2013-05-24
  */
 public class KhipuException extends Exception {
 
 	private static final long serialVersionUID = 1L;
-	private List<String> _errors = new LinkedList<String>();
 
-	public List<String> getErrors() {
-		return _errors;
-	}
+	private String _type;
 
-	public void addError(String error) {
-		_errors.add(error);
-	}
+    private String _message;
 
+	public String getType(){
+        return _type;
+    }
+
+    public void setType(String type) {
+        _type = type;
+    }
+
+    public String getMessage() {
+        return _message;
+    }
+
+    public void setMessage(String message) {
+        _message = message;
+    }
 }
