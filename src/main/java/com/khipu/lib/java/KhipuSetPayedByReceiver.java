@@ -5,21 +5,20 @@
 
 package com.khipu.lib.java;
 
+import com.khipu.lib.java.exception.JSONException;
+import com.khipu.lib.java.exception.KhipuException;
+import com.khipu.lib.java.response.KhipuSetPayedByReceiverResponse;
+import org.apache.http.ParseException;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.http.ParseException;
-
-import com.khipu.lib.java.exception.KhipuException;
-import com.khipu.lib.java.exception.XMLException;
-import com.khipu.lib.java.response.KhipuSetPayedByReceiverResponse;
 
 /**
  * Servicio para que el cobrador modificar el estado de un pago a realizado.
  * 
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.1
+ * @version 1.2
  * @since 2013-05-24
  */
 public class KhipuSetPayedByReceiver extends KhipuService {
@@ -44,14 +43,14 @@ public class KhipuSetPayedByReceiver extends KhipuService {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("receiver_id", "" + getReceiverId());
 		map.put("payment_id", "" + getPaymentId());
-		map.put("hash", sha1(getConcatenated()));
+		map.put("hash", HmacSHA256(getSecret(), getConcatenated()));
 		try {
 			post(map);
 			return new KhipuSetPayedByReceiverResponse();
 		} catch (ParseException e) {
 			e.printStackTrace();
-		} catch (XMLException xmlException) {
-			throw Khipu.getErrorsException(xmlException.getXml());
+		} catch (JSONException xmlException) {
+			throw Khipu.getErrorsException(xmlException.getJSON());
 		}
 		return null;
 	}
@@ -60,7 +59,6 @@ public class KhipuSetPayedByReceiver extends KhipuService {
 		String concatenated = "";
 		concatenated += "receiver_id=" + getReceiverId();
 		concatenated += "&payment_id=" + getPaymentId();
-		concatenated += "&secret=" + getSecret();
 		return concatenated;
 	}
 

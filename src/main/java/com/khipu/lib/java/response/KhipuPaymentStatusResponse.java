@@ -9,7 +9,7 @@ package com.khipu.lib.java.response;
  * Objeto con la respuesta a verificar el estado de un pago.
  * 
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.1
+ * @version 1.2
  * @since 2013-05-24
  */
 public class KhipuPaymentStatusResponse implements KhipuResponse {
@@ -61,4 +61,9 @@ public class KhipuPaymentStatusResponse implements KhipuResponse {
 	public void setDetail(String detail) {
 		_detail = detail;
 	}
+
+    @Override
+    public String toString() {
+        return new StringBuilder("status: ").append(getStatus()).append(" detail: ").append(getDetail()).toString();
+    }
 }

@@ -5,15 +5,9 @@
 
 package com.khipu.lib.java;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Formatter;
-import java.util.List;
-import java.util.Map;
-
+import com.khipu.lib.java.exception.JSONException;
+import com.khipu.lib.java.exception.KhipuException;
+import com.khipu.lib.java.response.KhipuResponse;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -26,9 +20,16 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-import com.khipu.lib.java.exception.KhipuException;
-import com.khipu.lib.java.exception.XMLException;
-import com.khipu.lib.java.response.KhipuResponse;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public abstract class KhipuService {
 
@@ -56,32 +57,8 @@ public abstract class KhipuService {
 		_secret = secret;
 	}
 
-	public static String sha1(String string) {
-		String sha1 = "";
-		try {
-			MessageDigest crypt = MessageDigest.getInstance("SHA-1");
-			crypt.reset();
-			crypt.update(string.getBytes("UTF-8"));
-			sha1 = byteToHex(crypt.digest());
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return sha1;
-	}
 
-	private static String byteToHex(final byte[] hash) {
-		Formatter formatter = new Formatter();
-		for (byte b : hash) {
-			formatter.format("%02x", b);
-		}
-		String result = formatter.toString();
-		formatter.close();
-		return result;
-	}
-
-	protected String post(Map<String, String> data) throws ParseException, XMLException {
+	protected String post(Map<String, String> data) throws ParseException, JSONException {
 
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 
@@ -97,7 +74,7 @@ public abstract class KhipuService {
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				return EntityUtils.toString(response.getEntity());
 			}
-			throw new XMLException(EntityUtils.toString(response.getEntity()));
+			throw new JSONException(EntityUtils.toString(response.getEntity()));
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -105,4 +82,29 @@ public abstract class KhipuService {
 		}
 		return "";
 	}
+
+ public static String HmacSHA256(String secret, String data) {
+        try {
+            SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256");
+            Mac mac = Mac.getInstance("HmacSHA256");
+            mac.init(secretKeySpec);
+            byte[] digest = mac.doFinal(data.getBytes("UTF-8"));
+            return byteArrayToString(digest);
+        } catch (InvalidKeyException e) {
+            throw new RuntimeException("Invalid key exception while converting to HMac SHA256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Algorithm not supported");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Encoding not supported");
+        }
+    }
+
+    private static String byteArrayToString(byte[] data) {
+        BigInteger bigInteger = new BigInteger(1, data);
+        String hash = bigInteger.toString(16);
+        while (hash.length() < 64) {
+            hash = "0" + hash;
+        }
+        return hash;
+    }
 }

@@ -9,7 +9,7 @@ package com.khipu.lib.java;
  * Este objeto representa un pago en khipu.
  * 
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.1
+ * @version 1.2
  * @since 2013-05-24
  */
 public class Payment {
@@ -18,12 +18,12 @@ public class Payment {
 
 	private String _id;
 
-	private String _link;
+	private String _url;
 
-	public Payment(String email, String paymentId, String link) {
+	public Payment(String paymentId, String email, String url) {
 		_id = paymentId;
 		_email = email;
-		_link = link;
+		_url = url;
 	}
 
 	public String getEmail() {
@@ -42,11 +42,11 @@ public class Payment {
 		_id = id;
 	}
 
-	public String getLink() {
-		return _link;
+	public String getUrl() {
+		return _url;
 	}
 
-	public void setLink(String link) {
-		_link = link;
+	public void setUrl(String url) {
+		_url = url;
 	}
 }

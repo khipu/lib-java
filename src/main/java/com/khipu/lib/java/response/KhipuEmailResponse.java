@@ -14,7 +14,7 @@ import com.khipu.lib.java.Payment;
  * del cobro y los pagos asociados a él.
  * 
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.1
+ * @version 1.2
  * @since 2013-05-24
  */
 public class KhipuEmailResponse implements KhipuResponse {
@@ -72,4 +72,13 @@ public class KhipuEmailResponse implements KhipuResponse {
 		_payments = payments;
 	}
 
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("id: ").append(getBillId()).append("\n");
+        for(Payment payment: _payments) {
+            builder.append("payment_id: ").append(payment.getId()).append("\n");
+        }
+        return builder.toString();
+    }
 }

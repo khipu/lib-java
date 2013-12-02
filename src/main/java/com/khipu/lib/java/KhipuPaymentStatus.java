@@ -5,24 +5,23 @@
 
 package com.khipu.lib.java;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.khipu.lib.java.exception.JSONException;
+import com.khipu.lib.java.exception.KhipuException;
+import com.khipu.lib.java.response.KhipuPaymentStatusResponse;
 import org.apache.http.ParseException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.khipu.lib.java.exception.KhipuException;
-import com.khipu.lib.java.exception.XMLException;
-import com.khipu.lib.java.response.KhipuPaymentStatusResponse;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Servicio para verificar el estado de un pago en khipu.
  * 
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.1
+ * @version 1.2
  * @since 2013-05-24
  */
 public class KhipuPaymentStatus extends KhipuService {
@@ -44,7 +43,7 @@ public class KhipuPaymentStatus extends KhipuService {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("receiver_id", "" + getReceiverId());
 		map.put("payment_id", _paymentId);
-		map.put("hash", sha1(getConcatenated()));
+		map.put("hash", HmacSHA256(getSecret(), getConcatenated()));
 		try {
 			return new ObjectMapper().readValue(post(map), KhipuPaymentStatusResponse.class);
 		} catch (JsonParseException e) {
@@ -53,8 +52,8 @@ public class KhipuPaymentStatus extends KhipuService {
 			e.printStackTrace();
 		} catch (ParseException e) {
 			e.printStackTrace();
-		} catch (XMLException xmlException) {
-			throw Khipu.getErrorsException(xmlException.getXml());
+		} catch (JSONException e) {
+			throw Khipu.getErrorsException(e.getJSON());
 		}
 		return null;
 	}
@@ -63,7 +62,6 @@ public class KhipuPaymentStatus extends KhipuService {
 		StringBuilder concatenated = new StringBuilder();
 		concatenated.append("receiver_id=" + getReceiverId());
 		concatenated.append("&payment_id=" + _paymentId);
-		concatenated.append("&secret=" + getSecret());
 		return concatenated.toString();
 	}
 

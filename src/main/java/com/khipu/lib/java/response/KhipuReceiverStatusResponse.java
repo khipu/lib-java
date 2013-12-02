@@ -9,7 +9,7 @@ package com.khipu.lib.java.response;
  * Objeto con la respuesta a verificar el estado de un cobrador.
  * 
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.1
+ * @version 1.2
  * @since 2013-05-24
  */
 public class KhipuReceiverStatusResponse implements KhipuResponse {
@@ -73,4 +73,8 @@ public class KhipuReceiverStatusResponse implements KhipuResponse {
 		_type = type;
 	}
 
+    @Override
+    public String toString() {
+        return new StringBuilder("ready_to_collect: ").append(getReadyToCollect()).append(" type: ").append(getType()).toString();
+    }
 }
