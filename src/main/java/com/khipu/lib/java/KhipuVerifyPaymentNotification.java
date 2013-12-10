@@ -51,7 +51,7 @@ public class KhipuVerifyPaymentNotification extends KhipuService {
 	@Override
 	public KhipuVerifyPaymentNotificationResponse execute() throws KhipuException, IOException {
 		
-		if (("" + getReceiverId()).equals(getPostReceiverId())) {
+		if (!("" + getReceiverId()).equals(getPostReceiverId())) {
 			return new KhipuVerifyPaymentNotificationResponse(false);
 		}
 		
