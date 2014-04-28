@@ -24,7 +24,6 @@ import java.util.Map;
  */
 public class KhipuVerifyPaymentNotification extends KhipuService {
 
-	private String _postReceiverId;
 	private String _apiVersion;
 	private String _notificationId;
 	private String _subject;
@@ -34,10 +33,6 @@ public class KhipuVerifyPaymentNotification extends KhipuService {
 	private String _transaction_id;
 	private String _payerEmail;
 	private String _notificationSignature;
-
-	KhipuVerifyPaymentNotification(long receiverId, String secret) {
-		super(receiverId, secret);
-	}
 
 	KhipuVerifyPaymentNotification(int receiverId) {
 		super(receiverId, null);
@@ -50,11 +45,6 @@ public class KhipuVerifyPaymentNotification extends KhipuService {
 
 	@Override
 	public KhipuVerifyPaymentNotificationResponse execute() throws KhipuException, IOException {
-		
-		if (!("" + getReceiverId()).equals(getPostReceiverId())) {
-			return new KhipuVerifyPaymentNotificationResponse(false);
-		}
-		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("receiver_id", "" + getReceiverId());
 		map.put("api_version", _apiVersion);
@@ -146,14 +136,6 @@ public class KhipuVerifyPaymentNotification extends KhipuService {
 
 	public void setCurrency(String currency) {
 		_currency = currency;
-	}
-
-	public String getPostReceiverId() {
-		return _postReceiverId;
-	}
-
-	public void setPostReceiverId(String postReceiverId) {
-		_postReceiverId = postReceiverId;
 	}
 
 }
