@@ -19,9 +19,9 @@ import java.util.Map;
 
 /**
  * Servicio para verificar el estado de un pago en khipu.
- * 
+ *
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.2
+ * @version 1.3
  * @since 2013-05-24
  */
 public class KhipuPaymentStatus extends KhipuService {
@@ -40,7 +40,7 @@ public class KhipuPaymentStatus extends KhipuService {
 	@Override
 	public KhipuPaymentStatusResponse execute() throws KhipuException, IOException {
 
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("receiver_id", "" + getReceiverId());
 		map.put("payment_id", _paymentId);
 		map.put("hash", HmacSHA256(getSecret(), getConcatenated()));

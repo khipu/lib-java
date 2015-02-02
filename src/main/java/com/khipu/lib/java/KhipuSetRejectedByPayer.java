@@ -16,9 +16,9 @@ import java.util.Map;
 
 /**
  * Servicio para que el cobrador indique que el pagador a rechazado el pago.
- * 
+ *
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.2
+ * @version 1.3
  * @since 2013-05-24
  */
 public class KhipuSetRejectedByPayer extends KhipuService {
@@ -49,7 +49,7 @@ public class KhipuSetRejectedByPayer extends KhipuService {
 
 	@Override
 	public KhipuSetRejectedByPayerResponse execute() throws KhipuException, IOException {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("receiver_id", "" + getReceiverId());
 		map.put("payment_id", "" + getPaymentId());
 		map.put("text", "" + getText());

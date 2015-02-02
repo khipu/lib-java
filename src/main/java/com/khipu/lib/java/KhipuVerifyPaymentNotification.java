@@ -17,9 +17,9 @@ import java.util.Map;
 /**
  * Servicio verificar la autenticidad de una notificación instantanea hecha por
  * khipu.
- * 
+ *
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.2
+ * @version 1.3
  * @since 2013-05-24
  */
 public class KhipuVerifyPaymentNotification extends KhipuService {
@@ -45,7 +45,7 @@ public class KhipuVerifyPaymentNotification extends KhipuService {
 
 	@Override
 	public KhipuVerifyPaymentNotificationResponse execute() throws KhipuException, IOException {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("receiver_id", "" + getReceiverId());
 		map.put("api_version", _apiVersion);
 		map.put("notification_id", _notificationId);
