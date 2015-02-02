@@ -4,10 +4,10 @@
 
 Biblioteca JAVA para utilizar los servicios de Khipu.com
 
-Versión Biblioteca: 1.2.2
+Versión Biblioteca: 1.3.0
 
-Versión API Khipu: 1.2 
-Versión API de notificación: 1.2
+Versión API Khipu: 1.3
+Versión API de notificación: 1.3/1.2
 
 La documentación de Khipu.com se puede ver desde aquí: [https://khipu.com/page/api](https://khipu.com/page/api)
 
@@ -23,7 +23,7 @@ Si usas Maven en tu proyecto puedes agregar la siguiente dependencia en tu archi
 <dependency>
     <groupId>com.khipu</groupId>
     <artifactId>lib-khipu</artifactId>
-    <version>1.2.2</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
@@ -38,12 +38,13 @@ Esta biblioteca implementa los siguientes servicios de khipu:
 2. Crear cobros y enviarlos por mail. 
 3. Crear una página de Pago.
 4. Crear un pago y obtener us URL.
-5. Recibir y validar la notificación de un pago.
-6. Verificar el estado de una cuenta de cobro.
-7. Verificar el estado de un pago.
-8. Marcar un pago como pagado.
-9. Marcar un cobro como expirado.
-10. Marcar un pago como rechazado.
+5. Validar notificación de pago usando API de notificaciones 1.3 (recomendado).
+6. Validar notificación de pago usando API de notificaciones 1.2 (obsoleto).
+7. Verificar el estado de una cuenta de cobro.
+8. Verificar el estado de un pago.
+9. Marcar un pago como pagado.
+10. Marcar un cobro como expirado.
+11. Marcar un pago como rechazado.
 
 
 ### 1) Obtener listado de bancos.
@@ -93,7 +94,7 @@ pago se tiene el ID, el correo asociado y la URL en khipu para pagar.
 ### 3) Crear una página de Pago.
 ----------------------------
 
-Este ejemplo genera un archivo .html con un formulario de pago en khipu.
+Este ejemplo genera un archivo .html con un formulario de pago en khipu. La fecha de expiración está puesta para 3 días más.
 
 ```Java
 	PrintWriter out;
@@ -102,9 +103,11 @@ Este ejemplo genera un archivo .html con un formulario de pago en khipu.
 		out.print(Khipu.getPaymentButton(ID_DEL_COBRADOR
 			, SECRET_DEL_COBRADOR
 			, "john.doe@gmail.com"
+			, "Evdfk"
 			, "Prueba de cobro"
 			, "descripción de la prueba"
 			, 10
+			, new Date(System.currentTimeMillis() + (30 * 24 * 60 * 60 * 1000))
 			, "https://ejemplo.com/notify"
 			, "https://ejemplo.com/return"
 			, "https://ejemplo.com/cancel"
@@ -141,7 +144,29 @@ Este servicio entrega un objeto _KhipuUrlResponse_ que contiene el identificador
     }
 ```
 
-### 5) Validar la notificación de un pago.
+### 5) Validar la notificación de un pago usando API de notificaciones 1.3 o superior (recomendado).
+
+Este servicio se usa para obtener la información de un pago luego de que khipu notifique que este ha sido pagado. Khipu envía la notificación de pago
+que contiene un _notification_token_. Este token se envía de vuelta a khipu para obtener la información del pago. En especial, se debe verificar que el campo
+_receiver_id_ sea el mismo configurado en el sitio.
+
+El servicio entrega un objeto _KhipuGetPaymentNotificationResponse_ que contiene la información del pago.
+
+```Java
+KhipuGetPaymentNotification khipuGetPaymentNotification = Khipu.gePaymentNotification(ID_DEL_COBRADOR, SECRET_DEL_COBRADOR);
+khipuGetPaymentNotification.setNotificationToken("c67879f947fc61d36fa1419764bcb7a96c5593e5fb1833f31f5141acff050cdd");
+try {
+	KhipuGetPaymentNotificationResponse response = khipuGetPaymentNotification.execute();
+	System.out.println(response);
+} catch (KhipuException e) {
+	System.out.println(e.getType());
+	System.out.println(e.getMessage());
+} catch (IOException e) {
+	e.printStackTrace();
+}
+```
+
+### 6) Validar la notificación de un pago usando API de notificaciones 1.2 o anterior (obsoleto).
 
 Este ejemplo contacta a khipu para validar los datos de una transacción. Para usar
 este servicio no es necesario configurar el SECRET del cobrador. Se retorna un
@@ -175,7 +200,7 @@ datos deben obtenerse desde el HttpRequest.
 ```
 
 
-### 6) Verificar el estado de una cuenta de cobro.
+### 7) Verificar el estado de una cuenta de cobro.
 
 Este servicio permite consultar el estado de una cuenta khipu. Se devuelve un 
 KhipuReceiverStatusResponse que indica si esta cuenta está habilitada para cobrar
@@ -194,7 +219,7 @@ y el tipo de cuenta (desarrollo o producción).
 	}
 ```
 
-### 7) Verificar el estado de un pago.
+### 8) Verificar el estado de un pago.
 
 Este servició sirve para verificar el estado de un pago.
 
@@ -212,7 +237,7 @@ Este servició sirve para verificar el estado de un pago.
 	}
 ```
 
-### 8) Marcar un cobro como pagado.
+### 9) Marcar un cobro como pagado.
 
 Este servicio permite marcar un cobro como pagado. Si el pagador
 paga por un método alternativo a khipu, el cobrador puede marcar 
@@ -232,7 +257,7 @@ este cobro como saldado.
 	}
 ```
 
-### 9) Marcar un cobro como expirado.
+### 10) Marcar un cobro como expirado.
 
 Este servicio permite adelantar la expiración del cobro. Se puede adjuntar un texto
 que será desplegado a la gente que trate de ir a pagar. 
@@ -253,7 +278,7 @@ que será desplegado a la gente que trate de ir a pagar.
 ```
 
 
-### 10) Marcar un cobro como rechazado.
+### 11) Marcar un cobro como rechazado.
 
 Este servicio permite rechazar un pago con el fin de inhabilitarlo. Permite indicar la razón por la que el pagador rechaza saldar este pago:
 

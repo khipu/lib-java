@@ -58,7 +58,7 @@ public abstract class KhipuService {
 	}
 
 
-	protected String post(Map<String, String> data) throws ParseException, JSONException {
+	protected String post(Map<String, Object> data) throws ParseException, JSONException {
 
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 
@@ -67,7 +67,7 @@ public abstract class KhipuService {
 			HttpPost httpost = new HttpPost(Khipu.API_URL + getMethodEndpoint());
 			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 			for (String key : data.keySet()) {
-				nvps.add(new BasicNameValuePair(key, data.get(key)));
+				nvps.add(new BasicNameValuePair(key, (String) data.get(key)));
 			}
 			httpost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
 			response = httpclient.execute(httpost);
@@ -83,28 +83,28 @@ public abstract class KhipuService {
 		return "";
 	}
 
- public static String HmacSHA256(String secret, String data) {
-        try {
-            SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256");
-            Mac mac = Mac.getInstance("HmacSHA256");
-            mac.init(secretKeySpec);
-            byte[] digest = mac.doFinal(data.getBytes("UTF-8"));
-            return byteArrayToString(digest);
-        } catch (InvalidKeyException e) {
-            throw new RuntimeException("Invalid key exception while converting to HMac SHA256");
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Algorithm not supported");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Encoding not supported");
-        }
-    }
+	public static String HmacSHA256(String secret, String data) {
+		try {
+			SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256");
+			Mac mac = Mac.getInstance("HmacSHA256");
+			mac.init(secretKeySpec);
+			byte[] digest = mac.doFinal(data.getBytes("UTF-8"));
+			return byteArrayToString(digest);
+		} catch (InvalidKeyException e) {
+			throw new RuntimeException("Invalid key exception while converting to HMac SHA256");
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException("Algorithm not supported");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException("Encoding not supported");
+		}
+	}
 
-    private static String byteArrayToString(byte[] data) {
-        BigInteger bigInteger = new BigInteger(1, data);
-        String hash = bigInteger.toString(16);
-        while (hash.length() < 64) {
-            hash = "0" + hash;
-        }
-        return hash;
-    }
+	private static String byteArrayToString(byte[] data) {
+		BigInteger bigInteger = new BigInteger(1, data);
+		String hash = bigInteger.toString(16);
+		while (hash.length() < 64) {
+			hash = "0" + hash;
+		}
+		return hash;
+	}
 }

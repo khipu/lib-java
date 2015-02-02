@@ -16,9 +16,9 @@ import java.util.Map;
 
 /**
  * Servicio para que el cobrador modificar el estado de un pago a realizado.
- * 
+ *
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.2
+ * @version 1.3
  * @since 2013-05-24
  */
 public class KhipuSetPayedByReceiver extends KhipuService {
@@ -40,7 +40,7 @@ public class KhipuSetPayedByReceiver extends KhipuService {
 
 	@Override
 	public KhipuSetPayedByReceiverResponse execute() throws KhipuException, IOException {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("receiver_id", "" + getReceiverId());
 		map.put("payment_id", "" + getPaymentId());
 		map.put("hash", HmacSHA256(getSecret(), getConcatenated()));

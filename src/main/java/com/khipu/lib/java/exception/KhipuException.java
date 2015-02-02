@@ -7,9 +7,9 @@ package com.khipu.lib.java.exception;
 
 /**
  * Excepción que se arroja en caso error en alguna petición a khipu
- * 
+ *
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.2
+ * @version 1.3
  * @since 2013-05-24
  */
 public class KhipuException extends Exception {
@@ -18,21 +18,21 @@ public class KhipuException extends Exception {
 
 	private String _type;
 
-    private String _message;
+	private String _message;
 
-	public String getType(){
-        return _type;
-    }
+	public String getType() {
+		return _type;
+	}
 
-    public void setType(String type) {
-        _type = type;
-    }
+	public void setType(String type) {
+		_type = type;
+	}
 
-    public String getMessage() {
-        return _message;
-    }
+	public String getMessage() {
+		return _message;
+	}
 
-    public void setMessage(String message) {
-        _message = message;
-    }
+	public void setMessage(String message) {
+		_message = message;
+	}
 }

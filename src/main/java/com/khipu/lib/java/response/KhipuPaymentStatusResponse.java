@@ -7,9 +7,9 @@ package com.khipu.lib.java.response;
 
 /**
  * Objeto con la respuesta a verificar el estado de un pago.
- * 
+ *
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.2
+ * @version 1.3
  * @since 2013-05-24
  */
 public class KhipuPaymentStatusResponse implements KhipuResponse {
@@ -19,7 +19,7 @@ public class KhipuPaymentStatusResponse implements KhipuResponse {
 
 	/**
 	 * Obtiene el estado de este pago.
-	 * 
+	 *
 	 * @return el estado de un pago. Los valores posibles son
 	 * @since 2013-05-24
 	 */
@@ -29,9 +29,8 @@ public class KhipuPaymentStatusResponse implements KhipuResponse {
 
 	/**
 	 * Establece el estado de este pago.
-	 * 
-	 * @param status
-	 *            el estado del pago.
+	 *
+	 * @param status el estado del pago.
 	 * @since 2013-05-24
 	 */
 	public void setStatus(String status) {
@@ -42,7 +41,7 @@ public class KhipuPaymentStatusResponse implements KhipuResponse {
 	 * Obtiene el detalle sobre el estado del pago. Un pago puede haber
 	 * terminado por el flujo normal, pero también podría haber sido marcado
 	 * como pagado por el cobrador.
-	 * 
+	 *
 	 * @return el detalle del estado
 	 * @since 2013-05-24
 	 */
@@ -52,9 +51,8 @@ public class KhipuPaymentStatusResponse implements KhipuResponse {
 
 	/**
 	 * Establece el detalle del estado de este pago.
-	 * 
-	 * @param detail
-	 *            el detalle del estado.
+	 *
+	 * @param detail el detalle del estado.
 	 * @return el identificador
 	 * @since 2013-05-24
 	 */
@@ -62,8 +60,8 @@ public class KhipuPaymentStatusResponse implements KhipuResponse {
 		_detail = detail;
 	}
 
-    @Override
-    public String toString() {
-        return new StringBuilder("status: ").append(getStatus()).append(" detail: ").append(getDetail()).toString();
-    }
+	@Override
+	public String toString() {
+		return new StringBuilder("status: ").append(getStatus()).append(" detail: ").append(getDetail()).toString();
+	}
 }

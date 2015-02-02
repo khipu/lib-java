@@ -6,30 +6,30 @@
 package com.khipu.lib.java.response;
 
 public class KhipuUrlResponse implements KhipuResponse {
-    private final String _id;
-    private final String _url;
-    private final String _mobileUrl;
+	private final String _id;
+	private final String _url;
+	private final String _mobileUrl;
 
-    public KhipuUrlResponse(String id, String url, String mobileUrl) {
-        _id = id;
-        _url = url;
-        _mobileUrl = mobileUrl;
-    }
+	public KhipuUrlResponse(String id, String url, String mobileUrl) {
+		_id = id;
+		_url = url;
+		_mobileUrl = mobileUrl;
+	}
 
-    public String getId() {
-        return _id;
-    }
+	public String getId() {
+		return _id;
+	}
 
-    public String getUrl() {
-        return _url;
-    }
+	public String getUrl() {
+		return _url;
+	}
 
-    public String getMobileUrl() {
-        return _mobileUrl;
-    }
+	public String getMobileUrl() {
+		return _mobileUrl;
+	}
 
-    @Override
-    public String toString() {
-        return new StringBuilder().append("id: ").append(getId()).append(" url: ").append(getUrl()).append(" mobileUrl: ").append(getMobileUrl()).toString();
-    }
+	@Override
+	public String toString() {
+		return new StringBuilder().append("id: ").append(getId()).append(" url: ").append(getUrl()).append(" mobileUrl: ").append(getMobileUrl()).toString();
+	}
 }

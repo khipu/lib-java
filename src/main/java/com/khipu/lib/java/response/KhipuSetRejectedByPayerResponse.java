@@ -8,9 +8,9 @@ package com.khipu.lib.java.response;
 /**
  * Objeto que representa la respuesta a que el cobrador indique que un pagador a
  * rechazado un pago.
- * 
+ *
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.2
+ * @version 1.3
  * @since 2013-05-24
  */
 public class KhipuSetRejectedByPayerResponse implements KhipuResponse {

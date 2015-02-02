@@ -7,9 +7,9 @@ package com.khipu.lib.java.response;
 
 /**
  * Interfaz para la respuesta de los servicios khipu
- * 
+ *
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.2
+ * @version 1.3
  * @since 2013-05-24
  */
 public interface KhipuResponse {

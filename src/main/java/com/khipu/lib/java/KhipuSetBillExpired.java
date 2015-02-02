@@ -16,9 +16,9 @@ import java.util.Map;
 
 /**
  * Servicio para expirar un cobro.
- * 
+ *
  * @author Alejandro Vera (alejandro.vera@khipu.com)
- * @version 1.2
+ * @version 1.3
  * @since 2013-05-24
  */
 public class KhipuSetBillExpired extends KhipuService {
@@ -37,7 +37,7 @@ public class KhipuSetBillExpired extends KhipuService {
 
 	@Override
 	public KhipuSetBillExpiredResponse execute() throws KhipuException, IOException {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("receiver_id", "" + getReceiverId());
 		map.put("bill_id", _billId);
 		map.put("text", _text);
