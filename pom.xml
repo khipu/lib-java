@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.khipu</groupId>
 	<artifactId>lib-khipu</artifactId>
-	<version>1.3.1</version>
+	<version>1.3.2-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
