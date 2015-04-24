@@ -61,6 +61,9 @@ public class KhipuGetPaymentNotification extends KhipuService {
 			String payment_id = (String) info.get("payment_id");
 			String currency = (String) info.get("currency");
 			String payer_email = (String) info.get("payer_email");
+			String payer_identifier = (String) info.get("payer_identifier");
+			String account_number = (String) info.get("account_number");
+			String bank_name = (String) info.get("bank_name");
 			return new KhipuGetPaymentNotificationResponse(
 					notification_token
 					, receiver_id
@@ -70,7 +73,10 @@ public class KhipuGetPaymentNotification extends KhipuService {
 					, transaction_id
 					, payment_id
 					, currency
-					, payer_email);
+					, payer_email
+					, payer_identifier
+					, account_number
+					, bank_name);
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
