@@ -40,6 +40,8 @@ public class KhipuGetPaymentNotificationResponse implements KhipuResponse {
 	 * @param currency          código de la moneda
 	 * @param payerEmail        email del pagador
 	 * @param payerIdentifier   identificador del pagador
+	 * @param accountNumber     número de cuenta bancaria
+	 * @param bankName			el nombre del banco
 	 * @since 2015-02-02
 	 */
 	public KhipuGetPaymentNotificationResponse(String notificationToken,

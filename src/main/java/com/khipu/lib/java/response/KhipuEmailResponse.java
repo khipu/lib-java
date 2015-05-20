@@ -42,7 +42,6 @@ public class KhipuEmailResponse implements KhipuResponse {
 	 * Este método establece el valor del identificador del cobro.
 	 *
 	 * @param billId el identificador del cobro.
-	 * @return el identificador
 	 * @since 2013-05-24
 	 */
 	public void setBillId(String billId) {

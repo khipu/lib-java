@@ -190,9 +190,11 @@ public class Khipu {
 	 * @param secret        llave de cobrador
 	 * @param email         correo del pagador. Este correo aparecerá pre-configurado en
 	 *                      la página de pago (opcional).
+	 * @param bankId		el identificador del banco para hacer el pago.
 	 * @param subject       asunto del cobro. Con un máximo de 255 caracteres.
 	 * @param body          la descripción del cobro (opcional).
 	 * @param amount        el monto del cobro.
+	 * @param expiresDate   la fecha de expiración para pagar.
 	 * @param notifyUrl     la dirección de tu web service que utilizará khipu para
 	 *                      notificarte de un pago realizado (opcional).
 	 * @param returnUrl     la dirección URL a donde enviar al cliente una vez que el pago

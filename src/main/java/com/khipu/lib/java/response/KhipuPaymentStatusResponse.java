@@ -53,7 +53,6 @@ public class KhipuPaymentStatusResponse implements KhipuResponse {
 	 * Establece el detalle del estado de este pago.
 	 *
 	 * @param detail el detalle del estado.
-	 * @return el identificador
 	 * @since 2013-05-24
 	 */
 	public void setDetail(String detail) {
