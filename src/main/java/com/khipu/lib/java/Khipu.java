@@ -40,6 +40,19 @@ public class Khipu {
 	public static String BUTTON_200x75_WHITE = "200x75-w.png";
 
 	/**
+	 * Entrega un servicio para reversar pagos en Khipu.
+	 *
+	 * @param receiverId id de cobrador
+	 * @param secret     llave de cobrador
+	 * @return el servicio para reversar pagos
+	 * @see KhipuInstantReverse
+	 * @since 2015-05-20
+	 */
+	public static KhipuInstantReverse getInstantReverse(long receiverId, String secret) {
+		return new KhipuInstantReverse(receiverId, secret);
+	}
+
+	/**
 	 * Entrega un servicio para injectar pagos por email en Khipu.
 	 *
 	 * @param receiverId id de cobrador
@@ -52,6 +65,15 @@ public class Khipu {
 		return new KhipuCreateEmail(receiverId, secret);
 	}
 
+	/**
+	 * Entrega un servicio para crear una URL de pago.
+	 *
+	 * @param receiverId id de cobrador
+	 * @param secret     llave de cobrador
+	 * @return el servicio para crear URLs.
+	 * @see KhipuPaymentStatus
+	 * @since 2013-05-24
+	 */
 	public static KhipuCreatePaymentURL getCreatePaymentURL(long receiverId, String secret) {
 		return new KhipuCreatePaymentURL(receiverId, secret);
 	}
