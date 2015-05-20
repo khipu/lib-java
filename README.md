@@ -45,6 +45,7 @@ Esta biblioteca implementa los siguientes servicios de khipu:
 9. Marcar un pago como pagado.
 10. Marcar un cobro como expirado.
 11. Marcar un pago como rechazado.
+12. Reversar un pago.
 
 
 ### 1) Obtener listado de bancos.
@@ -277,7 +278,6 @@ que será desplegado a la gente que trate de ir a pagar.
 	}
 ```
 
-
 ### 11) Marcar un cobro como rechazado.
 
 Este servicio permite rechazar un pago con el fin de inhabilitarlo. Permite indicar la razón por la que el pagador rechaza saldar este pago:
@@ -288,6 +288,26 @@ Este servicio permite rechazar un pago con el fin de inhabilitarlo. Permite indi
 	setRejectedByPayer.setText("El pago no corresponde");
 	try {
 		KhipuSetRejectedByPayerResponse response = setRejectedByPayer.execute();
+		System.out.println(response);
+	} catch (KhipuException e) {
+		System.out.println(e.getType());
+		System.out.println(e.getMessage());
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+```
+
+
+### 12) Reversar un pago.
+
+Este servicio permite reversar un pago para que el dinero sea devuelto al pagador. Para más detalles, como por ejemplo hasta cuando es posible reversar, lee
+la documentación en la [página de la API](https://khipu.com/page/api):
+
+```Java
+	KhipuInstantReverse instantReverse = Khipu.getInstantReverse(ID_DEL_COBRADOR, SECRET_DEL_COBRADOR);
+	instantReverse.setNotificationId("0pk7xfgocry4");
+	try {
+		KhipuInstantReverseResponse response = instantReverse.execute();
 		System.out.println(response);
 	} catch (KhipuException e) {
 		System.out.println(e.getType());
