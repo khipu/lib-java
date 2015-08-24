@@ -26,7 +26,7 @@ public class KhipuSetBillExpired extends KhipuService {
 	private String _text;
 	private String _billId;
 
-	KhipuSetBillExpired(long receiverId, String secret) {
+	public KhipuSetBillExpired(long receiverId, String secret) {
 		super(receiverId, secret);
 	}
 

@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public class KhipuReceiverBanks extends KhipuService {
 
-	KhipuReceiverBanks(long receiverId, String secret) {
+	public KhipuReceiverBanks(long receiverId, String secret) {
 		super(receiverId, secret);
 	}
 

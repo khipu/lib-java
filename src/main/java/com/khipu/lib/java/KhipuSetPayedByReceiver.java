@@ -29,7 +29,7 @@ public class KhipuSetPayedByReceiver extends KhipuService {
 		return _paymentId;
 	}
 
-	KhipuSetPayedByReceiver(long receiverId, String secret) {
+	public KhipuSetPayedByReceiver(long receiverId, String secret) {
 		super(receiverId, secret);
 	}
 
