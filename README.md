@@ -23,7 +23,7 @@ Si usas Maven en tu proyecto puedes agregar la siguiente dependencia en tu archi
 <dependency>
     <groupId>com.khipu</groupId>
     <artifactId>lib-khipu</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.2</version>
 </dependency>
 ```
 
