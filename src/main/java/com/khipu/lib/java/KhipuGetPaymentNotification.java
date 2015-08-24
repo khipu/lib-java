@@ -28,7 +28,7 @@ public class KhipuGetPaymentNotification extends KhipuService {
 
 	private String _notificationToken;
 
-	KhipuGetPaymentNotification(long receiverId, String secret) {
+	public KhipuGetPaymentNotification(long receiverId, String secret) {
 		super(receiverId, secret);
 	}
 

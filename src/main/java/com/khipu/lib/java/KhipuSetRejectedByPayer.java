@@ -38,7 +38,7 @@ public class KhipuSetRejectedByPayer extends KhipuService {
 		return _paymentId;
 	}
 
-	KhipuSetRejectedByPayer(long receiverId, String secret) {
+	public KhipuSetRejectedByPayer(long receiverId, String secret) {
 		super(receiverId, secret);
 	}
 

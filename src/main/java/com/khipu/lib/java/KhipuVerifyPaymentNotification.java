@@ -34,7 +34,7 @@ public class KhipuVerifyPaymentNotification extends KhipuService {
 	private String _payerEmail;
 	private String _notificationSignature;
 
-	KhipuVerifyPaymentNotification(int receiverId) {
+	public KhipuVerifyPaymentNotification(int receiverId) {
 		super(receiverId, null);
 	}
 

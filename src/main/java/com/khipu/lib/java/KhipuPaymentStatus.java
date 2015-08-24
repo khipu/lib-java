@@ -28,7 +28,7 @@ public class KhipuPaymentStatus extends KhipuService {
 	private String _id;
 	private String _paymentId;
 
-	KhipuPaymentStatus(long receiverId, String secret) {
+	public KhipuPaymentStatus(long receiverId, String secret) {
 		super(receiverId, secret);
 	}
 

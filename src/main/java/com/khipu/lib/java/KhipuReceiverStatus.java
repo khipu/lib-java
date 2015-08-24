@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public class KhipuReceiverStatus extends KhipuService {
 
-	KhipuReceiverStatus(long receiverId, String secret) {
+	public KhipuReceiverStatus(long receiverId, String secret) {
 		super(receiverId, secret);
 	}
 
