@@ -4,7 +4,7 @@
 
 Biblioteca JAVA para utilizar los servicios de Khipu.com
 
-Versión Biblioteca: 1.3.0
+Versión Biblioteca: 1.3.3
 
 Versión API Khipu: 1.3
 Versión API de notificación: 1.3/1.2
@@ -23,7 +23,7 @@ Si usas Maven en tu proyecto puedes agregar la siguiente dependencia en tu archi
 <dependency>
     <groupId>com.khipu</groupId>
     <artifactId>lib-khipu</artifactId>
-    <version>1.3.2</version>
+    <version>1.3.3</version>
 </dependency>
 ```
 
