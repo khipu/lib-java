@@ -138,7 +138,7 @@ public class KhipuSetRegularTransferConciliationInfoResponse implements KhipuRes
                 + " destinationBankName: " + this._destinationBankName + " destinationBankUrl: "
                 + this._destinationBankUrl + " accountIdentifier: " + this._accountIdentifier + " accountType: "
                 + this._accountType + " accountHolderPersonalIdentifier: " + this._accountHolderPersonalIdentifier
-                + " accountHolderPersonalName: " + this._accountHolderPersonalName + " accountHolderPersonalEmail: "
+                + " accountHolderPersonalName: " + this._accountHolderPersonalName + " accountHolderEmail: "
                 + this._accountHolderEmail + " deadline: " + this._deadline;
     }
 
